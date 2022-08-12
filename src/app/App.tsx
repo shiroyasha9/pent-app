@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import Test from './components/TestComponent';
 import { transformer, trpc } from './utils/trpc';
 
 const { manifest } = Constants;
@@ -26,7 +27,7 @@ export default function App() {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <View style={styles.container}>
-          <Text>Open up App.tsx to start working on your app!</Text>
+          <Test />
           <StatusBar style='auto' />
         </View>
       </QueryClientProvider>
