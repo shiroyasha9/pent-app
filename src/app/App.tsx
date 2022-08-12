@@ -1,12 +1,36 @@
+import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import { transformer, trpc } from './utils/trpc';
+
+const { manifest } = Constants;
+
+const localhost = `http://${manifest!.debuggerHost?.split(':').shift()}:3000`;
 
 export default function App() {
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() =>
+    trpc.createClient({
+      url: `${localhost}/api/trpc`,
+
+      async headers() {
+        return {};
+      },
+      transformer
+    })
+  );
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <View style={styles.container}>
+          <Text>Open up App.tsx to start working on your app!</Text>
+          <StatusBar style='auto' />
+        </View>
+      </QueryClientProvider>
+    </trpc.Provider>
   );
 }
 
@@ -15,6 +39,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
+    justifyContent: 'center'
+  }
 });

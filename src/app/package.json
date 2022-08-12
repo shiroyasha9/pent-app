@@ -9,12 +9,17 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@trpc/client": "^9.27.0",
+    "@trpc/react": "^9.27.0",
+    "@trpc/server": "^9.27.0",
     "expo": "~46.0.6",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.4",
-    "react-native-web": "~0.18.7"
+    "react-native-web": "~0.18.7",
+    "react-query": "3",
+    "superjson": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
