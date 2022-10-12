@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import Constants from "expo-constants";
+import { useState } from "react";
+import { SafeAreaView } from "react-native";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { httpBatchLink } from "@trpc/client";
+
+import Home from "./screens/Home";
+import { trpc } from "./utils/trpc";
+
+const { manifest } = Constants;
+const localhost = `http://${manifest!.debuggerHost?.split(":").shift()}:3000`;
+
+const App = () => {
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() =>
+    trpc.createClient({
+      links: [
+        httpBatchLink({
+          url: `${localhost}/api/trpc`,
+        }),
+      ],
+    }),
   );
-}
+  return (
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <Home />
+        </SafeAreaView>
+      </QueryClientProvider>
+    </trpc.Provider>
+  );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
