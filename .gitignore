@@ -31,3 +31,17 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+# expo
+.expo/
+dist/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
